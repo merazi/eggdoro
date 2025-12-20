@@ -1,0 +1,346 @@
+:root {
+    /* Light Theme Palette */
+    --clr-bg-light: #f7f7f7;
+    --clr-text-light: #333;
+    --clr-primary-light: #ff6f61; /* Salmon */
+    --clr-secondary-light: #9adbc7; /* Mint */
+    --clr-animation-bg-light: #fffacd; /* Lemon Chiffon for contrast */
+
+    /* Egg Color */
+    --clr-egg: #ffe0b2;
+    /* Chick Color */
+    --clr-chick-body: #ffeb3b;
+    --clr-chick-tummy: #fffde7;
+}
+
+.dark-theme {
+    /* Dark Theme Palette */
+    --clr-bg-dark: #1e1e2f;
+    --clr-text-dark: #eee;
+    --clr-primary-dark: #f08080; /* Light Coral */
+    --clr-secondary-dark: #6a5acd; /* Slate Blue */
+    --clr-animation-bg-dark: #2c2c43; /* Darker background for contrast */
+
+    /* Apply Dark Theme variables */
+    --clr-bg: var(--clr-bg-dark);
+    --clr-text: var(--clr-text-dark);
+    --clr-primary: var(--clr-primary-dark);
+    --clr-secondary: var(--clr-secondary-dark);
+    --clr-animation-bg: var(--clr-animation-bg-dark);
+}
+
+/* Default to Light Theme */
+body:not(.dark-theme) {
+    --clr-bg: var(--clr-bg-light);
+    --clr-text: var(--clr-text-light);
+    --clr-primary: var(--clr-primary-light);
+    --clr-secondary: var(--clr-secondary-light);
+    --clr-animation-bg: var(--clr-animation-bg-light);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--clr-bg);
+    color: var(--clr-text);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* --- NEW FLOATING CONTROLS SECTION --- */
+.floating-controls {
+    position: fixed; /* Fixes position relative to the viewport */
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between; /* Pushes the two main buttons to the corners */
+    align-items: flex-start;
+    width: auto;
+    z-index: 100;
+}
+
+/* Redefine button styling to fit the floating area */
+.settings-panel {
+    margin-bottom: 0;
+    position: relative;
+}
+
+.settings-panel button, #theme-toggle-btn {
+    padding: 8px 15px;
+    margin: 0;
+    font-size: 0.9em; /* Slightly smaller text for floating buttons */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--clr-bg);
+    background-color: var(--clr-primary);
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+.settings-panel button:hover, #theme-toggle-btn:hover {
+    opacity: 0.9;
+}
+
+
+/* Ensure the config form panel drops down nicely below the settings button */
+#config-form {
+position: absolute;
+top: 100%;
+left: 0;
+min-width: 200px;
+align-items: flex-start;
+z-index: 10;
+
+/* Inherited styling for the form block */
+background: var(--clr-secondary);
+padding: 15px;
+border-radius: 8px;
+margin-top: 5px;
+display: flex; /* Override hidden */
+flex-direction: column;
+}
+
+/* Fix input width inside the smaller floating form */
+#config-form input {
+width: 80px;
+padding: 8px;
+border: none;
+border-radius: 4px;
+text-align: center;
+color: var(--clr-text);
+background-color: var(--clr-bg);
+margin-bottom: 10px;
+}
+/* END NEW FLOATING CONTROLS SECTION */
+
+
+.app-container {
+    padding: 30px;
+    border-radius: 15px;
+    background: var(--clr-bg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    width: 450px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+}
+
+/* Timer and Controls Styling */
+#mode-display {
+margin-top: 15px;
+font-size: 1.5em;
+color: var(--clr-primary);
+}
+
+#time-display {
+font-family: monospace;
+font-size: 5em;
+font-weight: bold;
+margin: 10px 0;
+}
+
+.controls button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--clr-bg);
+    background-color: var(--clr-primary);
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+.controls button:hover {
+    opacity: 0.9;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- Animation Area Styling --- */
+.animation-area {
+    width: 100%;
+    height: 300px;
+    margin-top: 25px;
+    border-radius: 10px;
+    background-color: var(--clr-animation-bg);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+/* --- State A: The Egg (Work Time) --- */
+.egg-container {
+    width: 200px;
+    height: 250px;
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Common egg piece styling */
+.egg-top, .egg-bottom {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    background-color: var(--clr-egg);
+    border-radius: 50% / 60% 60% 40% 40%;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    transform-origin: 50% 50%;
+    transition: transform 0.1s ease-out, opacity 0.5s;
+}
+
+/* Top piece will rotate and move */
+.egg-top {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 45%, 0% 45%);
+    z-index: 2;
+}
+
+/* Bottom piece remains static but holds the base shape */
+.egg-bottom {
+    clip-path: polygon(0% 40%, 100% 40%, 100% 100%, 0% 100%);
+    z-index: 1;
+}
+
+/* Dynamic CSS classes for Egg Breaking (Applied by JS) */
+.broken-10 { transform: translateY(-3px) rotateZ(1deg); }
+.broken-20 { transform: translateY(-6px) rotateZ(-2deg); }
+.broken-30 { transform: translateY(-9px) rotateZ(3deg); }
+.broken-40 { transform: translateY(-12px) rotateZ(-4deg); }
+.broken-50 { transform: translateY(-15px) rotateZ(5deg); }
+.broken-60 { transform: translateY(-18px) rotateZ(-6deg); }
+.broken-70 { transform: translateY(-21px) rotateZ(7deg); }
+.broken-80 { transform: translateY(-24px) rotateZ(-8deg); }
+
+/* Fully broken and moved off-screen (State Transition) */
+.broken-100 {
+    transform: translateY(-50px) rotateZ(15deg) !important;
+}
+
+/* --- State B: The Chick (Break Time) --- */
+.chick-container {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: transform 0.5s ease-in-out;
+    z-index: 3;
+}
+
+/* Body (The main sphere) */
+.chick-container::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--clr-chick-body);
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tummy (Lighter center) */
+.chick-container::after {
+    content: '';
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    background-color: var(--clr-chick-tummy);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Eyes, Cheeks, Beak */
+.chick-container .eye {
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    border-radius: 50%;
+    position: absolute;
+    top: 40px;
+    z-index: 10;
+}
+.chick-container .eye.left { left: 30px; }
+.chick-container .eye.right { right: 30px; }
+
+.chick-container .cheek {
+    width: 15px;
+    height: 10px;
+    background-color: #ffb6c1;
+    border-radius: 50%;
+    position: absolute;
+    top: 70px;
+    z-index: 10;
+}
+.chick-container .cheek.left { left: 20px; }
+.chick-container .cheek.right { right: 20px; }
+
+.chick-container .beak {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid #ff9800;
+    position: absolute;
+    top: 65px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+/* Simple Wings */
+.chick-container .wing {
+    width: 30px;
+    height: 40px;
+    background-color: var(--clr-chick-body);
+    border-radius: 50% 50% 0 0;
+    position: absolute;
+    top: 55%;
+    transform: translateY(-50%) rotate(20deg);
+    z-index: 5;
+    opacity: 0.8;
+}
+.chick-container .wing.left { left: -5px; transform-origin: 100% 50%; }
+.chick-container .wing.right { right: -5px; transform: translateY(-50%) rotate(-20deg); transform-origin: 0% 50%; }
+
+
+/* Break Time Animation (Gentle Wiggle) */
+@keyframes chick-wiggle {
+    0% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, -5px); }
+    100% { transform: translate(-50%, 0); }
+}
+
+.chick-container.wiggle {
+    animation: chick-wiggle 1.5s ease-in-out infinite;
+}
+
+/* State C - Transition Class: Chick Exit */
+.chick-exit {
+    /* Moves the chick off the screen to the right */
+    transform: translateX(250px) !important;
+}

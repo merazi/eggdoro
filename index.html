@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eggdoro - Pomodoro Timer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-theme">
+
+    <div class="floating-controls">
+        <div class="settings-panel">
+            <button id="toggle-settings-btn">⚙️ Settings</button>
+            <div id="config-form" class="hidden">
+                <label for="work-duration">Work Time (min):</label>
+                <input type="number" id="work-duration" value="25" min="1">
+
+                <label for="break-duration">Break Time (min):</label>
+                <input type="number" id="break-duration" value="5" min="1">
+
+                <button id="save-settings-btn">Save</button>
+            </div>
+        </div>
+
+        <button id="theme-toggle-btn">Toggle Dark Theme</button>
+    </div>
+
+    <div class="app-container">
+        <h1>🥚 Eggdoro 🐥</h1>
+
+        <div class="timer-display">
+            <h2 id="mode-display">Work Time</h2>
+            <div id="time-display">25:00</div>
+            <div class="controls">
+                <button id="start-pause-btn">Start</button>
+                <button id="reset-btn">Reset</button>
+
+                <button id="skip-work-btn">Skip Work</button>
+                <button id="skip-break-btn" class="hidden">Skip Break</button>
+            </div>
+        </div>
+
+        <div class="animation-area">
+            <div class="egg-container" id="egg-container">
+                <div class="egg-top"></div>
+                <div class="egg-bottom"></div>
+            </div>
+
+            <div class="chick-container hidden" id="chick-container">
+                <div class="eye left"></div>
+                <div class="eye right"></div>
+                <div class="cheek left"></div>
+                <div class="cheek right"></div>
+                <div class="beak"></div>
+                <div class="wing left"></div>
+                <div class="wing right"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
