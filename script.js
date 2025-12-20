@@ -7,6 +7,11 @@ let isWorkMode = true;
 let timerInterval = null;
 const TOTAL_WORK_TIME = workDuration; // Used for calculating egg progress
 
+// --- AUDIO SETUP (NEW) ---
+const chickChirpSound = new Audio('sounds/chick-chirp.opus');
+const chickenSound = new Audio('sounds/chicken-sound.opus');
+
+
 // --- DOM Elements ---
 const timeDisplay = document.getElementById('time-display');
 const modeDisplay = document.getElementById('mode-display');
@@ -17,7 +22,7 @@ const configForm = document.getElementById('config-form');
 const toggleSettingsBtn = document.getElementById('toggle-settings-btn');
 const saveSettingsBtn = document.getElementById('save-settings-btn');
 
-// NEW BUTTONS
+// SKIP BUTTONS
 const skipWorkBtn = document.getElementById('skip-work-btn');
 const skipBreakBtn = document.getElementById('skip-break-btn');
 
@@ -106,8 +111,7 @@ function resetTimer() {
  * Handles the moment the timer reaches zero.
  */
 function handleTimerEnd() {
-    // Play a sound or show a notification here (optional)
-
+    // No explicit sound needed here, as the transition functions handle it
     isWorkMode ? transitionToBreak() : transitionToWork();
 }
 
@@ -133,6 +137,9 @@ function updateControlVisibility() {
  * Switches from Work (Egg) to Break (Chick).
  */
 function transitionToBreak() {
+    // Play the 'chick chirp' sound when work time is over (NEW)
+    chickChirpSound.play();
+
     // Stop any running timer
     if (timerInterval) {
         clearInterval(timerInterval);
@@ -154,9 +161,8 @@ function transitionToBreak() {
         startPauseBtn.textContent = 'Start';
         timeDisplay.textContent = formatTime(timeRemaining);
 
-        // Update button visibility and start the timer if it wasn't a skip from paused state
+        // Update button visibility
         updateControlVisibility();
-        // toggleTimer(); // Don't auto-start, let user click start
     }, 500);
 }
 
@@ -164,6 +170,9 @@ function transitionToBreak() {
  * Switches from Break (Chick) back to Work (Egg).
  */
 function transitionToWork() {
+    // Play the 'chicken' sound when break time is over (NEW)
+    chickenSound.play();
+
     // Stop any running timer
     if (timerInterval) {
         clearInterval(timerInterval);
@@ -188,7 +197,6 @@ function transitionToWork() {
 
         // Update button visibility
         updateControlVisibility();
-        // toggleTimer(); // Don't auto-start, let user click start
     }, 500);
 }
 
@@ -288,7 +296,7 @@ function init() {
         configForm.classList.add('hidden');
     });
 
-    // NEW EVENT LISTENERS FOR SKIP FUNCTIONALITY
+    // Event Listeners for Skip Functionality
     skipWorkBtn.addEventListener('click', transitionToBreak);
     skipBreakBtn.addEventListener('click', transitionToWork);
 }
