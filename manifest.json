@@ -1,0 +1,16 @@
+{
+  "name": "EggDoro Timer",
+  "short_name": "EggDoro",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "description": "A Pomodoro timer with a chicken theme.",
+  "icons": [
+    {
+      "src": "images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
